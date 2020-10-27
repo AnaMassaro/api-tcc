@@ -1,0 +1,76 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from SimpleCORSFilterService WSDL service -->
+
+  <service name="SimpleCORSFilter" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://config"/>
+      <parameter name="wsdlServiceElement" value="SimpleCORSFilterService"/>
+      <parameter name="schemaQualified" value="http://config"/>
+      <parameter name="wsdlServicePort" value="SimpleCORSFilter"/>
+      <parameter name="className" value="config.SimpleCORSFilterSoapBindingImpl"/>
+      <parameter name="wsdlPortType" value="SimpleCORSFilter"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation name="init" qname="operNS:init" xmlns:operNS="http://config" soapAction="" >
+        <parameter qname="pns:arg0" xmlns:pns="http://config" type="tns:anyType" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="destroy" qname="operNS:destroy" xmlns:operNS="http://config" soapAction="" >
+      </operation>
+      <operation name="doFilter" qname="operNS:doFilter" xmlns:operNS="http://config" soapAction="" >
+        <parameter qname="pns:req" xmlns:pns="http://config" type="tns:anyType" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:res" xmlns:pns="http://config" type="tns:anyType" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:chain" xmlns:pns="http://config" type="tns:anyType" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <parameter name="allowedMethods" value="init doFilter destroy"/>
+
+      <typeMapping
+        xmlns:ns="http://config"
+        qname="ns:>initResponse"
+        type="java:config.InitResponse"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://config"
+        qname="ns:>doFilter"
+        type="java:config.DoFilter"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://config"
+        qname="ns:>doFilterResponse"
+        type="java:config.DoFilterResponse"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://config"
+        qname="ns:>destroy"
+        type="java:config.Destroy"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://config"
+        qname="ns:>destroyResponse"
+        type="java:config.DestroyResponse"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+  </service>
+</deployment>
